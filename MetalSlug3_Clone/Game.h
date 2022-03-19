@@ -5,7 +5,7 @@
 
 #include "Texture.h"
 
-#define MAX_FRAME_RATE 60
+#define MAX_FRAME_RATE 100
 
 /*
 	Our simple game framework

@@ -45,10 +45,17 @@
 //#define TEXTURE_PATH_MISC TEXTURES_DIR "\\misc_transparent.png"
 //#define TEXTURE_PATH_ENEMIES TEXTURES_DIR "\\enemies.png"
 
-CMarco* marco;
+CMarco *marco;
 #define MARCO_START_X 10.0f
 #define MARCO_START_Y 130.0f
-#define MARCO_START_VX 0.1f
+#define MARCO_START_VX 0.2f
+
+CMarcoLeg *marcoleg;
+#define MARCOLEG_START_X 10.0f
+#define MARCOLEG_START_Y 145.0f
+#define MARCOLEG_START_VX 0.2f
+
+
 
 
 LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -82,18 +89,38 @@ void LoadResources()
 
 	// readline => id, left, top, right, bottom 
 
-	sprites->Add(10001, 13, 149, 44, 177, texMarco);
+	sprites->Add(10001, 13, 149, 45, 177, texMarco);
 	sprites->Add(10002, 47, 148, 77, 177, texMarco);
 	sprites->Add(10003, 79, 148, 107, 176, texMarco);
-	sprites->Add(10004, 109, 149, 136, 176, texMarco);
-	sprites->Add(10005, 139, 149, 168, 177, texMarco);
-	sprites->Add(10006, 171, 149, 201, 177, texMarco);
-	sprites->Add(10007, 204, 149, 236, 178, texMarco);
-	sprites->Add(10008, 239, 149, 271, 178, texMarco);
-	sprites->Add(10009, 274, 149, 306, 177, texMarco);
-	sprites->Add(10010, 308, 149, 338, 176, texMarco);
-	sprites->Add(10011, 342, 149, 373, 177, texMarco);
+	sprites->Add(10004, 109, 149, 136, 176, texMarco); 
+	sprites->Add(10005, 139, 149, 168, 177, texMarco); 
+	sprites->Add(10006, 171, 149, 201, 177, texMarco); 
+	sprites->Add(10007, 204, 149, 236, 178, texMarco); 
+	sprites->Add(10008, 239, 149, 271, 178, texMarco); 
+	sprites->Add(10009, 274, 149, 306, 177, texMarco); 
+	sprites->Add(10010, 308, 149, 339, 176, texMarco);  
+	sprites->Add(10011, 342, 149, 373, 177, texMarco); 
 	sprites->Add(10012, 376, 149, 407, 177, texMarco);
+
+	sprites->Add(10020, 256, 1533, 277, 1553, texMarco);
+	sprites->Add(10021, 280, 1533, 308, 1553, texMarco);
+	sprites->Add(10022, 311, 1533, 342, 1549, texMarco);
+	sprites->Add(10023, 345, 1533, 364, 1553, texMarco);
+	sprites->Add(10024, 367, 1533, 382, 1553, texMarco);
+	sprites->Add(10024, 385, 1533, 401, 1553, texMarco);
+	sprites->Add(10026, 404, 1533, 425, 1553, texMarco);
+	sprites->Add(10027, 428, 1533, 454, 1553, texMarco);
+	sprites->Add(10028, 457, 1533, 488, 1549, texMarco);
+	sprites->Add(10029, 491, 1533, 511, 1533, texMarco);
+	sprites->Add(10030, 513, 1533, 528, 1533, texMarco);
+	sprites->Add(10031, 530, 1533, 548, 1533, texMarco);
+	sprites->Add(10032, 551, 1533, 572, 1533, texMarco);
+	sprites->Add(10033, 576, 1533, 600, 1533, texMarco);
+	sprites->Add(10034, 603, 1533, 617, 1533, texMarco);
+	sprites->Add(10035, 621, 1533, 640, 1533, texMarco);
+	sprites->Add(10036, 644, 1533, 670, 1533, texMarco);
+	sprites->Add(10037, 674, 1533, 690, 1533, texMarco);
+
 
 
 	CAnimations* animations = CAnimations::GetInstance();
@@ -114,8 +141,30 @@ void LoadResources()
 	ani->Add(10012);
 	animations->Add(500, ani);
 
+	ani = new CAnimation(100);
+	ani->Add(10020);
+	ani->Add(10021);
+	ani->Add(10022);
+	ani->Add(10023);
+	ani->Add(10024);
+	ani->Add(10025);
+	ani->Add(10026);
+	ani->Add(10027);
+	ani->Add(10028);
+	ani->Add(10029);
+	ani->Add(10030);
+	ani->Add(10031);
+	ani->Add(10032);
+	ani->Add(10033);
+	ani->Add(10034);
+	ani->Add(10035);
+	ani->Add(10036);
+	ani->Add(10037);
+	ani->Add(10038);
+	animations->Add(510, ani);
 
 	marco = new CMarco(MARCO_START_X, MARCO_START_Y, MARCO_START_VX);
+	marcoleg = new CMarcoLeg(MARCOLEG_START_X, MARCOLEG_START_Y, MARCOLEG_START_VX);
 
 }
 
@@ -125,6 +174,7 @@ void LoadResources()
 */
 void Update(DWORD dt)
 {
+	marcoleg->Update(dt);
 	marco->Update(dt);
 }
 
@@ -147,7 +197,8 @@ void Render()
 		// Use Alpha blending for transparent sprites
 		FLOAT NewBlendFactor[4] = { 0,0,0,0 };
 		pD3DDevice->OMSetBlendState(g->GetAlphaBlending(), NewBlendFactor, 0xffffffff);
-
+		
+		marcoleg->Render();
 		marco->Render();
 
 		// Uncomment this line to see how to draw a porttion of a texture  

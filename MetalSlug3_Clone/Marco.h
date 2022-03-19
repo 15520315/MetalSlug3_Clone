@@ -18,4 +18,12 @@ public:
 	void Render();
 };
 
-
+class CMarcoLeg : public CGameObject
+{
+protected:
+	float vx;
+public:
+	CMarcoLeg(float x, float y, float vx);
+	void Update(DWORD dt);
+	void Render();
+};
